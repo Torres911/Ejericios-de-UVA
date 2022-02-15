@@ -7025,12 +7025,12 @@ de eso dependera cuantas veces se tiene que recorrer el grafo y usar el algoritm
 /*12390 UVA - Distributing Ballot Boxes*/
 from sys import stdin
 
-city,N,B = None,None,None
+A,N,B = None,None,None
 
 def ok(size):
   b,n = 0,0
   while b<=B and n!=N:
-    bc,rem = city[n]
+    bc,rem = A[n]//size,A[n]%size
     if rem!=0: bc += 1
     b,n = b+bc,n+1
   return b<=B
@@ -7044,15 +7044,14 @@ def solve():
   return hi
 
 def main():
-  global city,N,B
+  global A,N,B
   N,B = map(int, stdin.readline().split())
   while N!=-1:
-    city = list()
-    while len(city)!=N: city.append(int(stdin.readline()))
-    print(solve())
+    A = [ int(stdin.readline()) for _ in range(N) ]
     stdin.readline()
+    print(solve())
     N,B = map(int, stdin.readline().split())
-    
+
 main()
 
 /*10567 UVA - Helping Fill Bates*/
@@ -7060,8 +7059,30 @@ from sys import stdin
 
 text,dist = None,[ list() for _ in range(256) ]
 
+def lowerbound(x, p):
+  lo, up = 0, len(p)
+  while lo < up:
+    mid = low+((hi-low)>>1)
+    if x <= p[mid]:
+      up = mid
+    else:
+      lo = mid+1
+  return p[lo]
+
 def solve(p):
-  ans = (-1, -1, -1)
+  ans = (-1,-1,-1)
+  r = 0
+  f,l = -1,-1
+  flag = False
+  for i in range(len(p)):
+    res = lowerbound(r, dist[p[i]])
+    r = res + 1
+    if r == 0:
+      f = dist[p[r]]
+    elif i == (len(p)-1):
+      l = r
+      flag = True
+  ans = (flag,f,l)
   return ans
   
 def main():
@@ -7118,7 +7139,7 @@ def solve(a):
   	positivos = a[0]
   else:
   	positivos = 0
-
+	
   for i in range(1, len(a)):
   	n = a[i]
   	if n == 0:
