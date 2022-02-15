@@ -7036,11 +7036,12 @@ def ok(size):
   return b<=B
 
 def solve():
-  ans,t,T = None,1,max(A)
-  while ans==None and t<=T:
-    if ok(t): ans = t103
-    t += 1
-  return ans
+  low,hi = 0,max(A)
+  while low+1!=hi:
+    mid = low+((hi-low)>>1)
+    if ok(mid): hi = mid
+    else: low = mid
+  return hi
 
 def main():
   global city,N,B
