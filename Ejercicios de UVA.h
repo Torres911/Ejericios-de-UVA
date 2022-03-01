@@ -7060,14 +7060,17 @@ from sys import stdin
 text,dist = None,[ list() for _ in range(256) ]
 
 def lowerbound(x, p):
-  lo, up = 0, len(p)
-  while lo < up:
+  low, hi = 0, len(p)
+  while low < hi:
     mid = low+((hi-low)>>1)
     if x <= p[mid]:
-      up = mid
+      hi = mid
     else:
-      lo = mid+1
-  return p[lo]
+      low = mid+1
+  if low == len(p):
+      return -1
+  else:
+      return p[low]
 
 def solve(p):
   ans = (-1,-1,-1)
@@ -7075,13 +7078,16 @@ def solve(p):
   f,l = -1,-1
   flag = False
   for i in range(len(p)):
-    res = lowerbound(r, dist[p[i]])
-    r = res + 1
-    if r == 0:
-      f = dist[p[r]]
-    elif i == (len(p)-1):
-      l = r
+    res = lowerbound(r, dist[ord(p[i])])
+    if res == -1:
+        ans = (flag,f,l)
+        return ans
+    if i == 0:
+      f = res
+    if i == (len(p)-1):
+      l = res
       flag = True
+    r = res + 1
   ans = (flag,f,l)
   return ans
   
