@@ -7164,3 +7164,86 @@ def main():
       else: test.append(x)
   
 main()
+
+
+/*Tarea 2*/
+
+/*11002 - Towards Zero*/
+from sys import stdin
+
+board,N,rows = None,None,None
+
+def rho(r, c):
+  ans = None
+  if r>=N: ans = [c, c+1]
+  else:
+    ans = list()
+    if c!=0: ans.append(c-1)
+    if c!=r: ans.append(c)
+  return ans
+
+def solve_aux(r, c, x, memo):
+  ans,key = None,(r, c, x)
+  if key in memo: ans = memo[key]
+  else:
+    if r==0: ans = abs(board[0][0])==abs(x)
+    else:
+      ans,n,NXT = False,0,rho(r, c)
+      while ans==False and n!=len(NXT):
+        ans = solve_aux(r-1, NXT[n], x+board[r][c], memo) or \
+          solve_aux(r-1, NXT[n], x-board[r][c], memo)
+        n += 1
+    memo[key] = ans
+  return ans
+
+def solve():
+  ans,n,found,memo = None,0,False,dict()
+  while found==False:
+    found = solve_aux(rows-1, 0, n, memo) or solve_aux(rows-1, 0, -n, memo)
+    if found: ans = n
+    n += 1
+  return ans
+
+def main():
+  global board,N,rows
+  N = int(stdin.readline())
+  while N!=0:
+    rows = (N<<1)-1
+    board = [ list(map(abs, map(int, stdin.readline().split()))) for _ in range(rows) ]
+    print(solve())
+    # print(rho(rows-1, 0))
+    # print(rho(N, 0))
+    # print(rho(1, 0))
+    N = int(stdin.readline())
+
+main()
+
+/*10069 - Distinct Subsequences*/
+from sys import setrecursionlimit
+from sys import stdin
+setrecursionlimit(1<<24)
+
+def phi_memo(n, m, memo):
+  ans,key = None,(n, m)
+  if key in memo: ans = memo[key]
+  else:
+    if m==0: ans = 1
+    elif m>n: ans = 0
+    else:
+      ans = phi_memo(n-1, m, memo)
+      if T[n-1]==P[m-1]:
+        ans += phi_memo(n-1, m-1, memo)
+    memo[key] = ans
+  return ans
+
+def main():
+    global T, P
+    casos = int(stdin.readline())
+    while casos != 0:
+        memo = {}
+        T = stdin.readline().rstrip('\n')
+        P = stdin.readline().rstrip('\n')
+        print(phi_memo(len(T), len(P), memo))
+        casos -= 1
+
+main()
