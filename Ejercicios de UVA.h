@@ -7253,3 +7253,21 @@ def main():
         casos -= 1
 
 main()
+
+/*11658 - Best Coalitions*/
+from sys import stdin
+
+def phi_memo(A, B)
+
+def main():
+  N, B = N,B = map(int, stdin.readline().split())
+  while N != 0 and B != 0:
+    A = dict()
+    for i in range(1, N):
+      tmp = float(stdin.readline())
+      A[i] = int(tmp * 100)
+    if A[B] > 5000: print("{:.2f}".format(100))
+    else
+    N, B = N,B = map(int, stdin.readline().split())
+
+main()
