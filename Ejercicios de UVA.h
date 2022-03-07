@@ -7174,7 +7174,7 @@ main()
 
 /*Tarea 2*/
 
-/*11002 - Towards Zero*/
+/*11002 UVA - Towards Zero*/
 from sys import stdin
 
 board,N,rows = None,None,None
@@ -7224,7 +7224,7 @@ def main():
 
 main()
 
-/*10069 - Distinct Subsequences*/
+/*10069 UVA - Distinct Subsequences*/
 from sys import setrecursionlimit
 from sys import stdin
 setrecursionlimit(1<<24)
@@ -7254,7 +7254,7 @@ def main():
 
 main()
 
-/*11658 - Best Coalitions*/
+/*11658 UVA - Best Coalitions*/
 from sys import stdin
 
 def phi_memo(A, B)
@@ -7262,7 +7262,7 @@ def phi_memo(A, B)
 def main():
   N, B = N,B = map(int, stdin.readline().split())
   while N != 0 and B != 0:
-    A = dict()
+  	A = []
     for i in range(1, N):
       tmp = float(stdin.readline())
       A[i] = int(tmp * 100)
@@ -7271,3 +7271,51 @@ def main():
     N, B = N,B = map(int, stdin.readline().split())
 
 main()
+
+/*Parcial 1*/
+
+/*10446 UVA - The Marriage Interview*/
+from sys import stdin
+from sys import setrecursionlimit
+setrecursionlimit(1<<24)
+
+def trib_memo(n, back, memo):
+  ans,key = 1,(n, back)
+  if key in memo: ans = memo[key]
+  else:
+    if n <= 1: ans = 1
+    else:
+      for i in range(1,back+1):
+        ans += trib_memo(n-i,back, memo)
+    memo[key] = ans
+  return ans
+
+def main():
+  memo = {}
+  casos = 1
+  N,B = map(int, stdin.readline().split())
+  while N < 61 and B < 61:
+    res = trib_memo(N, B, memo)
+    print("Case " + str(casos) + ": " + str(res))
+    casos += 1
+    N,B = map(int, stdin.readline().split())
+ 
+ 
+main()
+
+/*12260 UVA - Free Goodies*/
+from sys import stdin
+from sys import setrecursionlimit
+setrecursionlimit(1<<24)
+
+def phi_memo(i, j, memo):
+  ans,key = 1,(i, j)
+  if key in memo: ans = memo[key]
+  else:
+    if i == 0 or j == 0 or: ans = 1
+    else:
+      for i in range(1,back+1):
+        ans += phi_memo(n-i,back, memo)
+    memo[key] = ans
+  return ans
+/*907 UVA - Winterim Backpacking Trip*/
