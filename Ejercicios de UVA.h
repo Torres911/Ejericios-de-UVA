@@ -7308,7 +7308,7 @@ from sys import stdin
 from sys import setrecursionlimit
 setrecursionlimit(1<<24)
 
-def phi_memo(i, j, memo):
+def phi_memo(i, j, memo, B1, B2):
   ans,key = 1,(i, j)
   if key in memo: ans = memo[key]
   else:
@@ -7318,4 +7318,49 @@ def phi_memo(i, j, memo):
         ans += phi_memo(n-i,back, memo)
     memo[key] = ans
   return ans
+
 /*907 UVA - Winterim Backpacking Trip*/
+from sys import stdin
+from sys import setrecursionlimit
+setrecursionlimit(1<<24)
+
+camp = [0 for _ in range(605)]
+N,K = 0,0
+
+def solve(mid):
+  campSite,res = 0,0
+  for i in range(N+1):
+    if camp[i] > mid: return 0
+    res += camp[i]
+    if res > mid:
+      campSite += 1
+      res = camp[i]
+  if campSite <= K: return 1
+  else: return 0
+
+
+def main():
+  global N,K,camp
+  readT = 1
+  while readT == 1:
+    inputT = stdin.readline().split()
+    if inputT == []: readT = 0
+    else:
+      N,K = int(inputT[0]),int(inputT[1])
+      dist = 0
+      for i in range(N+1):
+        tmp = stdin.readline()
+        camp[i] = int(tmp)
+        dist += int(tmp)
+      l, r = 0,dist
+      ans = -1
+      while l <= r:
+        mid = (l + r)//2
+        tem = solve(mid)
+        if tem == 1:
+          r = mid - 1
+          ans = mid
+        else: l = mid + 1
+      print(ans)
+
+main()
