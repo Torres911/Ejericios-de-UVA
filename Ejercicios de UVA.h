@@ -7257,20 +7257,44 @@ main()
 /*11658 UVA - Best Coalitions*/
 from sys import stdin
 
-def phi_memo(A, B)
+A = [0 for _ in range(150)]
+dp = [[-1 for _ in range(10005)] for _ in range(105)]
+
+def solve(id, sum):
+  if id == N:
+    if sum > 5000:
+      return 0
+    return float("inf")
+  res = dp[id][sum]
+  if res != -1: 
+    return res
+  res = float("inf")
+  if id != (B-1): 
+    res = min(res, solve(id + 1, sum))
+  res = min(res, solve(id + 1, sum + A[id]) + A[id])
+  return res
+  
 
 def main():
-  N, B = N,B = map(int, stdin.readline().split())
+  global N,B
+  N,B = map(int, stdin.readline().split())
   while N != 0 and B != 0:
-  	A = []
-    for i in range(1, N):
-      tmp = float(stdin.readline())
-      A[i] = int(tmp * 100)
-    if A[B] > 5000: print("{:.2f}".format(100))
-    else
-    N, B = N,B = map(int, stdin.readline().split())
+    for i in range(N):
+      tmp = stdin.readline().strip()
+      tmp = tmp.replace(".","")
+      A[i] = int(tmp)
+    res = 0
+    if A[B-1] > 5000: 
+      res = 100
+    else:
+      tmp2 = solve(0,0)
+      res = (1.0 * A[B-1] * 100)/tmp2
+    print("{:.2f}".format(res))
+    N,B = map(int, stdin.readline().split())
 
 main()
+
+	      
 
 /*Parcial 1*/
 
