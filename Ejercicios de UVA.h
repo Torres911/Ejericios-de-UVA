@@ -7427,3 +7427,231 @@ def main():
       print(ans)
 
 main()
+
+
+/* Tarea 3 */
+
+/* 11491 UVA - Erasing and Winning */
+from sys import stdin
+
+def main():
+  N,D = map(int, stdin.readline().split())
+  while N != 0 and D != 0:
+    entrada = stdin.readline().strip()
+    s = []
+    
+    N,D = map(int, stdin.readline().split())
+
+main()
+
+def main():
+  N,D = map(int, stdin.readline().split())
+  while N != 0 and D != 0:
+    t,pos = 0,0
+    entrada = stdin.readline().strip()
+    res = []
+    while D > 0 and t < N - D:
+      target = entrada[t]
+      prev = t
+      i = prev + 1
+      while i <= prev + D::
+        if entrada[i] > target:
+          t = i
+          target = entrada[i]
+        i += 1
+      res[pos] = target
+      pos += 1
+      d -= t-prev
+      t += 1
+    entrada[t-1] = 0
+    if entrada[t] != 0 and t < N - D:
+    	res += pos + entrada + t
+    print(res)
+
+/* 12694 UVA - Meeting Room Arrangement */
+from sys import stdin
+
+def main():
+  casos = int(stdin.readline())
+  while casos != 0:
+    l,r = map(int, stdin.readline().split())
+    arr = [0 for _ in range(150)]
+    res = [0 for _ in range(150)]
+    while l != 0 and r != 0:
+      arr[r] = l + 1
+    for i in range(11):
+      res[i] = res[i-1]
+      for y in range(res[i])
+        res[i] = max(res[i], res[y - 1] + 1)
+    print(res[10])
+    casos -= 1
+
+
+/* TEMPORAL
+
+from sys import stdin
+
+def main():
+  N,E = map(int, stdin.readline().split())
+  while N != 0 and E != 0:
+    res = ""
+    s = stdin.readline()
+    lst = list(s)
+    lst2 = list(res)
+    string = ""
+    
+    pos = 0
+    for i in range(N):
+      while E and pos and s[i]>res[pos-1]:
+        E -= 1
+        pos -= 1
+      lst2[pos] = lst[i]
+      s = ''.join(lst)
+      res = ''.join(lst2)
+      pos += 1
+    while E != 0:
+      E -= 1
+      pos -= 1
+    for i in range(pos):
+      print(lst2[i])
+    print()
+    N,E = map(int, stdin.readline().split())
+
+main()
+
+
+*/
+
+/*Parcial 2*/
+
+
+/*10063 - Knuth's Permutation*/
+import sys
+
+def gen_perm(s):
+  nchars = len(s)
+  if nchars == 1:
+    yield s
+    return
+  a = s[-1]
+  for b in gen_perm(s[:-1]):
+    for i in range(nchars):
+      yield b[:i] + a + b[i:]
+  return
+
+first = True
+
+for s in sys.stdin.readlines():
+  if s[-1] == '\n': s = s[:-1]
+  if fisrt: fisrt = False
+  else: print()
+  for a in gen_perm(s):
+    print(a)
+
+
+"""
+Análisis y Diseño de Algoritmos
+Proyecto Final - 10076 The Bumpy Robot
+Autor: Santiago Torres Rincón
+Codigo: 8940234
+Frase de Compromiso: Como miembro de la comunidad académica de la Pontificia Universidad Javeriana Cali me comprometo a seguir los más altos estándares de integridad académica.
+"""
+
+from sys import stdin
+from heapq import *
+import math
+
+n,m,tablero,cola = None,None,None,None
+
+"""
+-Input: The current height of the square the robot is positioned as well as the height of the new square the robot is pretending to move to. Constants provided by the exercise 
+
+-Output: The amount of energy required to move to the pretending square 
+
+-Description: This function will calculate thre amount of energy required to move from square a to square b using their respective heights and the constants provided by the exercise
+"""
+def calcularEnergia(h1,h2,a1,a2,r):
+	energia = 0
+	if h1 > h2:
+		energia = math.ceil(a1 * (h1 - h2)) + r
+	elif h1 == h2:
+		energia = r
+	else:
+		energia = math.ceil(a2 * (h2 - h1)) + r
+	return energia
+
+"""
+-Input: The current height of the square the robot is positioned as well as the height of the new square the robot is pretending to move to. Constants provided by the exercise 
+
+-Output: The amount of time required to move to the pretending square 
+
+-Description: This function will calculate thre amount of time required to move from square a to square b using their respective heights and the constants provided by the exercise
+"""
+def calcularTiempo(h1,h2,b1,b2,d):
+	tiempo = 0
+	if h1 > h2:
+		tiempo = math.ceil(b1 * (h1 - h2)) + d
+	elif h1 == h2:
+		tiempo = d
+	else:
+		tiempo = math.ceil(b2 * (h2 - h1)) + d
+	return tiempo
+
+"""
+-Input: Resulting matrix called *visitados*, the constants provided by the exercise, starting position of the robot on the grid and the total energy and time provided for the moves
+
+-Output: The resulting matrix which in the end goal position has the amount of energy and time left after moving the robot from the initial position. If the robot is unable to
+move based on the parameters provided the end goal position will remain with the initial values which are python's infinite.
+
+-Description: This function uses the variable *cola* as a priority queue, in which the best posible movement values will be extracted to move the robot from its initial position
+to the end goal position. This function extracts from the original matrix, which only has the values for the different heights, the information for the possible movements the
+robot has. Afterwards the function checks if the position is inside the parameters of the grid and the position that is going to be reached has a bigger value of time required 
+(it takes more time currently than what it might take as seen in line 83), it also checks if the energy that has been calculated is under the maximum amount of energy provided, all this is provided using the variables *posI* and *posJ* which have the posible movements of the robot. After all the checks have been made
+the values of *visitados* in the new position and then placed inside the priority queue for it to be made into new values for the robot to move.
+"""
+def dijkstra(i,j,e,t,visitados,a1,a2,r,b1,b2,d,E):
+	global cola
+	posI = (0,1,0,-1)
+	posJ = (-1,0,1,0)
+	visitados[i][j] = (e,t)
+	cola = [(e,t,i,j)]
+
+	while len(cola) != 0:
+		nuevaEnergia, nuevoTiempo, i, j = heappop(cola)
+		for x in range(4):
+			I = i + posI[x] 
+			J = j + posJ[x]
+			if I >= 0 and I < m and J >= 0 and J < n:
+				h1 = tablero[i][j]
+				h2 = tablero[I][J]
+				posTiempo = nuevoTiempo + calcularTiempo(h1,h2,b1,b2,d)
+				posEnergia = nuevaEnergia + calcularEnergia(h1,h2,a1,a2,r)
+				if visitados[I][J][1] >= posTiempo and E >= posEnergia:
+					visitados[I][J] = (posEnergia,posTiempo)
+					heappush(cola, (posEnergia, posTiempo, I, J))
+			
+def main():
+	global n, m, tablero
+	m, n = map(int, stdin.readline().split())
+
+	while m != 0 and n != 0:
+		
+		a1, a2, r = map(float, stdin.readline().split())
+		b1, b2, d = map(float, stdin.readline().split())
+		r,d = int(r),int(d)
+		
+		tablero = [list(map(float, stdin.readline().split())) for _ in range(m)]
+		
+		rs, cs, rt, ct, E = list(map(lambda x: int(x) - 1, stdin.readline().split())) #This lambda function is used to map the different values to the variables which need to be reduced by 1 since the starting position of the grid is (0,0) and the values are placed for a grid starting in (1,1)
+		E += 1 #The energy constraint needs to remain the same so it needs to be added 1 again
+		visitados = [[[math.inf, math.inf] for i in range(n)] for j in range(m)] #Visitados has a position in x and y and inside has a tuple that has the time and energy of that position
+		dijkstra(rs,cs,0,0,visitados,a1,a2,r,b1,b2,d,E)
+		
+		if visitados[rt][ct][1] != math.inf:
+			print(visitados[rt][ct][1])
+		else:
+			print("failed")
+
+		m, n = map(int, stdin.readline().split())
+
+main()
